@@ -31,9 +31,12 @@ async def analyze_emotion(text: str = Query(..., description="Input text for emo
     emotion_label = result[0]["label"]
     emotion_score = result[0]["score"]
 
-    emotion_value = label2id.get(emotion_label,'unknown')  # Default to "unknown" for unknown labels
+    print("Emotion Result:", result)  # Print the result for debugging
+
+    emotion_value = label2id.get(emotion_label, 'unknown')  # Default to "unknown" for unknown labels
 
     return EmotionResponse(emotion=emotion_value, score=emotion_score)
+
 
 if __name__ == "__main__":
     import uvicorn
