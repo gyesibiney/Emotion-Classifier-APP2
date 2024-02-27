@@ -5,38 +5,35 @@ from transformers import AutoTokenizer, AutoModelForSequenceClassification, pipe
 app = FastAPI()
 
 # Load the pre-trained model and tokenizer
-model_name = "gyesibiney/Sentiment-review-analysis-roberta-3"
+model_name = "gyesibiney/Emotion-analysis-roberta-3"
 model = AutoModelForSequenceClassification.from_pretrained(model_name)
 tokenizer = AutoTokenizer.from_pretrained(model_name)
 
-# Create a sentiment analysis pipeline
-sentiment = pipeline("sentiment-analysis", model=model, tokenizer=tokenizer)
+# Create an emotion analysis pipeline
+emotion = pipeline("sentiment-analysis", model=model, tokenizer=tokenizer)
 
-# Create a dictionary to map sentiment labels to positive and negative strings
-sentiment_label_mapping = {
-    "LABEL_1": "positive",
-    "LABEL_0": "negative",
-}
+# Mapping from label to emotion
+label2id = {0: 'sadness', 1: 'joy', 2: 'love', 3: 'anger', 4: 'fear', 5: 'surprise'}
 
 # Define a request body model
-class SentimentRequest(BaseModel):
+class EmotionRequest(BaseModel):
     text: str
 
 # Define a response model
-class SentimentResponse(BaseModel):
-    sentiment: str  # 1 for positive, 0 for negative
+class EmotionResponse(BaseModel):
+    emotion: str  # Specify the possible emotions based on your model
     score: float
 
-# Create an endpoint for sentiment analysis with query parameter
-@app.get("/sentiment/")
-async def analyze_sentiment(text: str = Query(..., description="Input text for sentiment analysis")):
-    result = sentiment(text)
-    sentiment_label = result[0]["label"]
-    sentiment_score = result[0]["score"]
-    
-    sentiment_value = sentiment_label_mapping.get(sentiment_label, -1)  # Default to -1 for unknown labels
-    
-    return SentimentResponse(sentiment=sentiment_value, score=sentiment_score)
+# Create an endpoint for emotion analysis with a query parameter
+@app.get("/emotion/")
+async def analyze_emotion(text: str = Query(..., description="Input text for emotion analysis")):
+    result = emotion(text)
+    emotion_label = result[0]["label"]
+    emotion_score = result[0]["score"]
+
+    emotion_value = label2id.get(emotion_label, "unknown")  # Default to "unknown" for unknown labels
+
+    return EmotionResponse(emotion=emotion_value, score=emotion_score)
 
 if __name__ == "__main__":
     import uvicorn
