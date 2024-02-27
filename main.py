@@ -31,7 +31,7 @@ async def analyze_emotion(text: str = Query(..., description="Input text for emo
     emotion_label = result[0]["label"]
     emotion_score = result[0]["score"]
 
-    emotion_value = label2id.get(emotion_label, -1)  # Default to "unknown" for unknown labels
+    emotion_value = label2id.get(emotion_label)  # Default to "unknown" for unknown labels
 
     return EmotionResponse(emotion=emotion_value, score=emotion_score)
 
