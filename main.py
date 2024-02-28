@@ -13,7 +13,7 @@ tokenizer = AutoTokenizer.from_pretrained(model_name)
 emotion = pipeline("sentiment-analysis", model=model, tokenizer=tokenizer)
 
 # Mapping from label to emotion
-label2id = {0: 'sadness', 1: 'joy', 2: 'love', 3: 'anger', 4: 'fear', 5: 'surprise'}
+label2id = {'label_0': 'sadness', 'label_1': 'joy', 'label_2': 'love', 'label_3': 'anger', 'label_4': 'fear', 'label_5': 'surprise'}
 
 # Define a request body model for emotion analysis
 class EmotionRequest(BaseModel):
@@ -32,7 +32,7 @@ async def analyze_emotion(text: str = Query(..., description="Input text for emo
     emotion_score = result[0]["score"]
 
     # Correctly map the model's label to the desired emotion
-    emotion_value = label2id.get((emotion_label[-1]), 'unknown')  # Extracting the numeric part and mapping
+    emotion_value = label2id.get(emotion_label,-1)  # Extracting the numeric part and mapping
 
     return EmotionResponse(emotion=emotion_value, score=emotion_score)
 
