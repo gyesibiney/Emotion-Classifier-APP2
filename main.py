@@ -10,7 +10,10 @@ model = AutoModelForSequenceClassification.from_pretrained(model_name)
 tokenizer = AutoTokenizer.from_pretrained(model_name)
 
 # Create an emotion analysis pipeline
-emotion_analyzer = pipeline("sentiment-analysis", model=model, tokenizer=tokenizer)
+emotion = pipeline("sentiment-analysis", model=model, tokenizer=tokenizer)
+
+# Mapping from label to emotion
+label2id = {idx: feature['label'].int2str(idx) for idx in range(6)}
 
 # Define a request body model
 class EmotionRequest(BaseModel):
@@ -18,21 +21,20 @@ class EmotionRequest(BaseModel):
 
 # Define a response model
 class EmotionResponse(BaseModel):
-    emotion: str
+    emotion: str  # Specify the possible emotions based on your model
     score: float
 
 # Create an endpoint for emotion analysis with a query parameter
-@app.post("/analyze_emotion/")
-async def analyze_emotion(request: EmotionRequest):
-    result = emotion_analyzer(request.text)
+@app.get("/emotion/")
+async def analyze_emotion(text: str = Query(..., description="Input text for emotion analysis")):
+    result = emotion(text)
     emotion_label = result[0]["label"]
     emotion_score = result[0]["score"]
 
-    # Map emotion label to emotion string (you might need to adjust this based on your label mapping)
-    emotion_mapping = {0: 'sadness', 1: 'joy', 2: 'love', 3: 'anger', 4: 'fear', 5: 'surprise'}
-    emotion_value = emotion_mapping.get(emotion_label, 'unknown')
+    emotion_value = label2id.get(emotion_label, 'unknown')  # Default to "unknown" for unknown labels
 
     return EmotionResponse(emotion=emotion_value, score=emotion_score)
+
 
 if __name__ == "__main__":
     import uvicorn
