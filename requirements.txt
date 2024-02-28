@@ -1,5 +1,5 @@
 fastapi
-json
+#json
 uvicorn
 jinja2
 numpy 
