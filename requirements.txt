@@ -1,5 +1,5 @@
 fastapi
-joblib
+json
 uvicorn
 jinja2
 numpy 
