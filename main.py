@@ -1,6 +1,7 @@
 from fastapi import FastAPI, Query
 from pydantic import BaseModel
 from transformers import AutoTokenizer, AutoModelForSequenceClassification, pipeline
+from emotion-project import label2id
 
 app = FastAPI()
 
