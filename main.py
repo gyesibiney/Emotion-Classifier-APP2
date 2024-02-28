@@ -21,7 +21,7 @@ class EmotionRequest(BaseModel):
 
 # Define a response model for emotion analysis
 class EmotionResponse(BaseModel):
-    emotion: str  # Specify the possible emotions based on your model
+    emotion: str
     score: float
 
 # Create an endpoint for emotion analysis with a query parameter
@@ -31,9 +31,8 @@ async def analyze_emotion(text: str = Query(..., description="Input text for emo
     emotion_label = result[0]["label"]
     emotion_score = result[0]["score"]
 
-    print(f"Emotion Label: {emotion_label}")
-    emotion_value = label2id.get(emotion_label, 'unknown')  # Default to "unknown" for unknown labels
-    print(f"Emotion Value: {emotion_value}")
+    # Correctly map the model's label to the desired emotion
+    emotion_value = label2id.get(int(emotion_label[-1]), 'unknown')  # Extracting the numeric part and mapping
 
     return EmotionResponse(emotion=emotion_value, score=emotion_score)
 
