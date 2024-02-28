@@ -3,11 +3,6 @@ from pydantic import BaseModel
 from transformers import AutoTokenizer, AutoModelForSequenceClassification, pipeline
 
 
-# Load label2id from the saved JSON file
-with open('label2id.json', 'r') as json_file:
-    label2id = json.load(json_file)
-
-
 app = FastAPI()
 
 # Load the pre-trained model and tokenizer
