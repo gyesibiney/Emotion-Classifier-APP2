@@ -1,6 +1,7 @@
 from fastapi import FastAPI, Query
 from pydantic import BaseModel
 from transformers import AutoTokenizer, AutoModelForSequenceClassification, pipeline
+import json
 
 # Load label2id from the saved JSON file
 with open('label2id.json', 'r') as json_file:
