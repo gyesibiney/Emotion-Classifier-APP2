@@ -13,7 +13,7 @@ tokenizer = AutoTokenizer.from_pretrained(model_name)
 emotion = pipeline("sentiment-analysis", model=model, tokenizer=tokenizer)
 
 # Mapping from label to emotion
-label2id = {'label_0': 'sadness', 'label_1': 'joy', 'label_2': 'love', 'label_3': 'anger', 'label_4': 'fear', 'label_5': 'surprise'}
+label2id = {'0': 'sadness', '1': 'joy', '2': 'love', '3': 'anger', '4': 'fear', '5': 'surprise'}
 
 # Define a request body model for emotion analysis
 class EmotionRequest(BaseModel):
