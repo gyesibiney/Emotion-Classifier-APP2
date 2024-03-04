@@ -32,7 +32,7 @@ async def analyze_emotion(text: str = Query(..., description="Input text for emo
     emotion_score = result[0]["score"]
 
     # Correctly map the model's label to the desired emotion
-    emotion_value = label2id.get(int(emotion_label),'unknown')  # Extracting the numeric part and mapping
+    emotion_value = label2id.get((emotion_label),'unknown')  # Extracting the numeric part and mapping
 
     return EmotionResponse(emotion=emotion_value, score=emotion_score)
 
