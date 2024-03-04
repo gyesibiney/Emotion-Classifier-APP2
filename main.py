@@ -10,7 +10,7 @@ model = AutoModelForSequenceClassification.from_pretrained(model_name)
 tokenizer = AutoTokenizer.from_pretrained(model_name)
 
 # Create an emotion analysis pipeline
-emotion = pipeline("sentiment-analysis", model=model, tokenizer=tokenizer)
+emotion = pipeline("text-classification", model=model, tokenizer=tokenizer)
 
 # Mapping from label to emotion
 label2id = {'0': 'sadness', '1': 'joy', '2': 'love', '3': 'anger', '4': 'fear', '5': 'surprise'}
