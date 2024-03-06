@@ -4,24 +4,24 @@ from transformers import AutoTokenizer, AutoModelForSequenceClassification, pipe
 
 app = FastAPI()
 
-# Load the pre-trained model and tokenizer for emotion analysis
+# Load the pre-trained model and tokenizer
 model_name = "gyesibiney/miniLm-emotions-finetuned"
 model = AutoModelForSequenceClassification.from_pretrained(model_name)
 tokenizer = AutoTokenizer.from_pretrained(model_name)
 
 # Create an emotion analysis pipeline
-emotion = pipeline("text-classification", model=model, tokenizer=tokenizer)
+emotion = pipeline("sentiment-analysis", model=model, tokenizer=tokenizer)
 
 # Mapping from label to emotion
 label2id = {0: 'sadness', 1: 'joy', 2: 'love', 3: 'anger', 4: 'fear', 5: 'surprise'}
 
-# Define a request body model for emotion analysis
+# Define a request body model
 class EmotionRequest(BaseModel):
     text: str
 
-# Define a response model for emotion analysis
+# Define a response model
 class EmotionResponse(BaseModel):
-    emotion: str
+    emotion: str  # Specify the possible emotions based on your model
     score: float
 
 # Create an endpoint for emotion analysis with a query parameter
@@ -31,8 +31,7 @@ async def analyze_emotion(text: str = Query(..., description="Input text for emo
     emotion_label = result[0]["label"]
     emotion_score = result[0]["score"]
 
-    # Correctly map the model's label to the desired emotion
-    emotion_value = label2id.get(emotion_label,-1)  # Extracting the numeric part and mapping
+    emotion_value = label2id.get(emotion_label, 'unknown')  # Default to "unknown" for unknown labels
 
     return EmotionResponse(emotion=emotion_value, score=emotion_score)
 
