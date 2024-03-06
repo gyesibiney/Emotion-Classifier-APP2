@@ -1,6 +1,7 @@
 from fastapi import FastAPI, Query
 from pydantic import BaseModel
-from transformers import AutoTokenizer, AutoModelForSequenceClassification, pipeline
+from transformers import AutoTokenizer, AutoModelForSequenceClassification
+from transformers.pipelines import TextClassificationPipeline
 
 app = FastAPI()
 
@@ -9,11 +10,8 @@ model_name = "gyesibiney/miniLm-emotions-finetuned"
 model = AutoModelForSequenceClassification.from_pretrained(model_name)
 tokenizer = AutoTokenizer.from_pretrained(model_name)
 
-# Create an emotion analysis pipeline
-emotion = pipeline("sentiment-analysis", model=model, tokenizer=tokenizer)
-
-# Mapping from label to emotion
-label2id = {0: 'sadness', 1: 'joy', 2: 'love', 3: 'anger', 4: 'fear', 5: 'surprise'}
+# Create a text classification pipeline
+emotion_pipeline = TextClassificationPipeline(model=model, tokenizer=tokenizer, task="sentiment-analysis")
 
 # Define a request body model
 class EmotionRequest(BaseModel):
@@ -21,19 +19,15 @@ class EmotionRequest(BaseModel):
 
 # Define a response model
 class EmotionResponse(BaseModel):
-    emotion: str  # Specify the possible emotions based on your model
+    emotion: str
     score: float
 
 # Create an endpoint for emotion analysis with a query parameter
 @app.get("/emotion/")
 async def analyze_emotion(text: str = Query(..., description="Input text for emotion analysis")):
-    result = emotion(text)
-    emotion_label = result[0]["label"]
-    emotion_score = result[0]["score"]
+    result = emotion_pipeline(text)[0]
 
-    emotion_value = label2id.get(emotion_label, 'unknown')  # Default to "unknown" for unknown labels
-
-    return EmotionResponse(emotion=emotion_value, score=emotion_score)
+    return EmotionResponse(emotion=result['label'], score=result['score'])
 
 if __name__ == "__main__":
     import uvicorn
