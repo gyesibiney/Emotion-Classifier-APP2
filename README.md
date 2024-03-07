@@ -51,7 +51,7 @@ This project is developed and maintained by:
 DAVID GYESI BINEY
 
     
-    Connect with me on  www.linkedin.com/in/david-gyesi-biney
+Connect with me on Linkedin: www.linkedin.com/in/david-gyesi-biney
     
 
 
