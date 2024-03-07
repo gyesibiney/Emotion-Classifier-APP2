@@ -43,13 +43,15 @@ We express our gratitude to the entire community for their valuable contribution
 📞 Contact
 
 For any inquiries, feedback, or suggestions regarding this project, please feel free to contact us at gyesidavid@gmail.com.
+
+
 👥 Author
 
 This project is developed and maintained by:
 DAVID GYESI BINEY
 
     
-    Connect with me on LinkedIn:  www.linkedin.com/in/david-gyesi-biney
+    Connect with me on  www.linkedin.com/in/david-gyesi-biney
     
 
 
