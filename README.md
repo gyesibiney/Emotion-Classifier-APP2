@@ -34,12 +34,15 @@ cd emotion-classifier
 # Install required dependencies
 pip install -r requirements.txt
 ```
+
 ✨ Acknowledgments
 
 We express our gratitude to the entire community for their valuable contributions and support in making this project possible.
+
 📞 Contact
 
 For any inquiries, feedback, or suggestions regarding this project, please feel free to contact us at gyesidavid@gmail.com.
+
 👥 Author
 
 This project is developed and maintained by:
