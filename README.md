@@ -4,7 +4,7 @@
 =========================
 |  | Project's Name          | Article Link                                                  | Deployment Link                                            |
 |:-:|:------------------------:|:--------------------------------------------------------------:|:----------------------------------------------------------:|
-| 1 | Emotion Classifier Project|  ([https://your-article-link.com](https://medium.com/@david.biney/unveiling-emotions-a-simple-guide-to-emotion-classification-using-minilm-8760b288e111))                             | [Emotion Classifier Deployment](https://gyesibiney-emotions-app2.hf.space/docs) |
+| 1 | Emotion Classifier Project|  ([https://my-article-link.com](https://medium.com/@david.biney/unveiling-emotions-a-simple-guide-to-emotion-classification-using-minilm-8760b288e111))                             | [Emotion Classifier Deployment](https://gyesibiney-emotions-app2.hf.space/docs) |
 
 # Emotion Classifier Project: Understanding and Analyzing Emotions 💡
 
